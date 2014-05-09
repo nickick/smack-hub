@@ -1,29 +1,40 @@
 /* globals define */
 define(function(require, exports, module) {
-    'use strict';
+  'use strict';
     // import dependencies
     var Engine = require('famous/core/Engine');
-    var Modifier = require('famous/core/Modifier');
-    var Transform = require('famous/core/Transform');
-    var ImageSurface = require('famous/surfaces/ImageSurface');
+    var Surface = require('famous/core/Surface');
+    var View = require('famous/core/View');
+    var GridLayout = require('famous/views/GridLayout')
+    var HeaderFooterLayout = require('famous/views/HeaderFooterLayout');
+    var ImageSurface = require("famous/surfaces/ImageSurface");
+    var Modifier  = require("famous/core/Modifier");
 
     // create the main context
     var mainContext = Engine.createContext();
-
-    // your app here
-    var logo = new ImageSurface({
-        size: [200, 200],
-        content: '/content/images/famous_logo.png',
-        classes: ['backfaceVisibility']
+    var layout = new HeaderFooterLayout({
+      headerSize: 100,
+      footerSize: 50
     });
 
-    var initialTime = Date.now();
-    var centerSpinModifier = new Modifier({
-        origin: [0.5, 0.5],
-        transform : function() {
-            return Transform.rotateY(.002 * (Date.now() - initialTime));
-        }
-    });
+    addHeader();
+    addContent();
+    addFooter();
 
-    mainContext.add(centerSpinModifier).add(logo);
-});
+    function addHeader() {
+      var head = require('../src/views/header.js')(GridLayout, View, Surface, ImageSurface, Modifier);
+      layout.header.add(head);
+    }
+
+    function addContent() {
+      var content = require('../src/views/content.js')(View, Surface);
+      layout.content.add(content);
+    }
+
+    function addFooter() {
+      var footer = require('../src/views/footer.js')(View, Surface);
+      layout.footer.add(footer);
+    }
+
+    mainContext.add(layout);
+  });

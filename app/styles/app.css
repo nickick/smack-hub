@@ -1,8 +1,21 @@
 html {
   background: #fff;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .backfaceVisibility {
   -webkit-backface-visibility: visible;
   backface-visibility: visible;
+}
+
+.red-bg {
+  background-color: #fa5c4f;
+}
+
+.gray-bg {
+  background-color: #555;
+}
+
+.header-text {
+  white-space: nowrap;
 }
